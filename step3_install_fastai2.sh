@@ -27,7 +27,7 @@
 # echo $PW | sudo -k --stdin apt -y update
 # echo $PW | sudo -k --stdin apt -y upgrade
 # echo $PW | sudo -k --stdin apt -y autoremove
-apt -y update
+apt-get -y update
 
 # # sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
 # # sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
@@ -50,9 +50,9 @@ echo "Start installation of MAGMA at: $now"
 # echo $PW | sudo -k --stdin apt install -y libopenblas-dev
 # echo $PW | sudo -k --stdin apt install -y libopenmpi-dev 
 # echo $PW | sudo -k --stdin apt install -y gfortran
-apt install -y libopenblas-dev
-apt install -y libopenmpi-dev 
-apt install -y gfortran
+apt-get install -y libopenblas-dev
+apt-get install -y libopenmpi-dev 
+apt-get install -y gfortran
 # echo $PW | sudo -k --stdin apt install -y cmake
 wget http://icl.utk.edu/projectsfiles/magma/downloads/magma-2.5.3.tar.gz
 tar -xf magma-2.5.3.tar.gz

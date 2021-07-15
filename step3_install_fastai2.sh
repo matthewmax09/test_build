@@ -9,14 +9,14 @@
 # As this script will take many hours to execute, the script first needs to
 # cache your sudo credentials if they are not supplied on the command line
 
-if [ "$1" != "" ]; then
-  PW=$1
-else
-  echo "These prompts will only ask for each password once, please take care when typing"
-  echo "Please enter the sudo password"
-  read -sp 'Password: ' PW
-  echo
-fi
+# if [ "$1" != "" ]; then
+#   PW=$1
+# else
+#   echo "These prompts will only ask for each password once, please take care when typing"
+#   echo "Please enter the sudo password"
+#   read -sp 'Password: ' PW
+#   echo
+# fi
 
 
 # now=`date`
@@ -46,9 +46,12 @@ fi
 # The authors of MAGMA do not offer binary builds, so it needs to be compiled from source
 now=`date`
 echo "Start installation of MAGMA at: $now"
-echo $PW | sudo -k --stdin apt install -y libopenblas-dev
-echo $PW | sudo -k --stdin apt install -y libopenmpi-dev 
-echo $PW | sudo -k --stdin apt install -y gfortran
+# echo $PW | sudo -k --stdin apt install -y libopenblas-dev
+# echo $PW | sudo -k --stdin apt install -y libopenmpi-dev 
+# echo $PW | sudo -k --stdin apt install -y gfortran
+apt install -y libopenblas-dev
+apt install -y libopenmpi-dev 
+apt install -y gfortran
 # echo $PW | sudo -k --stdin apt install -y cmake
 wget http://icl.utk.edu/projectsfiles/magma/downloads/magma-2.5.3.tar.gz
 tar -xf magma-2.5.3.tar.gz
@@ -60,7 +63,8 @@ export OPENBLASDIR=/usr/lib/aarch64-linux-gnu/openblas
 export CUDADIR=/usr/local/cuda
 export PATH=$PATH:/usr/local/cuda-10.2/bin
 make -j6
-echo $PW | sudo -k --stdin --preserve-env make install prefix=/usr/local/magma
+# echo $PW | sudo -k --stdin --preserve-env make install prefix=/usr/local/magma
+make install prefix=/usr/local/magma
 
 # # For some reason, MAGMA needs a first run to configure itself or openblas correctly.
 # # The first run takes a long time to get started, but after it has run through once,

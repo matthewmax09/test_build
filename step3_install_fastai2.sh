@@ -41,30 +41,30 @@
 # echo $PW | sudo -k --stdin -H pip3 install -U setuptools 
 # echo $PW | sudo -k --stdin -H pip3 install -U pip
 
-# Install MAGMA from source
-# Since fastai requires pytorch to be compiled MAGMA, MAGMA needs to be installed first
-# The authors of MAGMA do not offer binary builds, so it needs to be compiled from source
-now=`date`
-echo "Start installation of MAGMA at: $now"
-# echo $PW | sudo -k --stdin apt install -y libopenblas-dev
-# echo $PW | sudo -k --stdin apt install -y libopenmpi-dev 
-# echo $PW | sudo -k --stdin apt install -y gfortran
-apt install -y libopenblas-dev
-apt install -y libopenmpi-dev 
-apt install -y gfortran
-# echo $PW | sudo -k --stdin apt install -y cmake
-wget http://icl.utk.edu/projectsfiles/magma/downloads/magma-2.5.3.tar.gz
-tar -xf magma-2.5.3.tar.gz
-# Magma needs a make.inc file to tell it which Nvidia architectures to compile for and where to find the blas libraries
-cp make.inc.openblas magma-2.5.3/make.inc 
-cd magma-2.5.3
-export GPU_TARGET=Volta # Jetson Xavier Has a Volta GPU
-export OPENBLASDIR=/usr/lib/aarch64-linux-gnu/openblas
-export CUDADIR=/usr/local/cuda
-export PATH=$PATH:/usr/local/cuda-10.2/bin
-make -j6
-# echo $PW | sudo -k --stdin --preserve-env make install prefix=/usr/local/magma
-make install prefix=/usr/local/magma
+# # Install MAGMA from source
+# # Since fastai requires pytorch to be compiled MAGMA, MAGMA needs to be installed first
+# # The authors of MAGMA do not offer binary builds, so it needs to be compiled from source
+# now=`date`
+# echo "Start installation of MAGMA at: $now"
+# # echo $PW | sudo -k --stdin apt install -y libopenblas-dev
+# # echo $PW | sudo -k --stdin apt install -y libopenmpi-dev 
+# # echo $PW | sudo -k --stdin apt install -y gfortran
+# apt install -y libopenblas-dev
+# apt install -y libopenmpi-dev 
+# apt install -y gfortran
+# # echo $PW | sudo -k --stdin apt install -y cmake
+# wget http://icl.utk.edu/projectsfiles/magma/downloads/magma-2.5.3.tar.gz
+# tar -xf magma-2.5.3.tar.gz
+# # Magma needs a make.inc file to tell it which Nvidia architectures to compile for and where to find the blas libraries
+# cp make.inc.openblas magma-2.5.3/make.inc 
+# cd magma-2.5.3
+# export GPU_TARGET=Volta # Jetson Xavier Has a Volta GPU
+# export OPENBLASDIR=/usr/lib/aarch64-linux-gnu/openblas
+# export CUDADIR=/usr/local/cuda
+# export PATH=$PATH:/usr/local/cuda-10.2/bin
+# make -j6
+# # echo $PW | sudo -k --stdin --preserve-env make install prefix=/usr/local/magma
+# make install prefix=/usr/local/magma
 
 # # For some reason, MAGMA needs a first run to configure itself or openblas correctly.
 # # The first run takes a long time to get started, but after it has run through once,
@@ -125,29 +125,29 @@ make install prefix=/usr/local/magma
 
 # # Install dependencies for pytorch build
 # pip3 install scikit-build --user
-# pip3 install ninja --user
-# pip3 install wheel
+pip3 install ninja --user
+pip3 install wheel
 
-# # Build torch from source
-# now=`date`
-# echo "Start installation of pytorch at: $now"
-# git clone --recursive --branch v1.9.0 https://github.com/pytorch/pytorch
-# cd pytorch/
-# wget https://gist.githubusercontent.com/dusty-nv/ce51796085178e1f38e3c6a1663a93a1/raw/fb2e0b6e89960fedd63ffc5a33e49e46dce5c987/pytorch-1.9-jetpack-4.5.1.patch -O pytorch-1.9-jetpack-4.5.1.patch
-# patch -p1 < pytorch-1.9-jetpack-4.5.1.patch
-# pip3 install -r requirements.txt
-# export USE_NCCL=0
-# export USE_DISTRIBUTED=0
-# export USE_QNNPACK=0
-# export USE_PYTORCH_QNNPACK=0
-# export TORCH_CUDA_ARCH_LIST="7.2"
-# export PYTORCH_BUILD_VERSION=1.9.0
-# export PYTORCH_BUILD_NUMBER=1
-# export BLAS=OpenBLAS
-# USE_OPENCV=1 python3 setup.py bdist_wheel # Add OpenCV support, as it is present on the nano
-# cd dist/
-# pip3 install torch-1.9.0-cp36-cp36m-linux_aarch64.whl
-# cd ~/
+# Build torch from source
+now=`date`
+echo "Start installation of pytorch at: $now"
+git clone --recursive --branch v1.9.0 https://github.com/pytorch/pytorch
+cd pytorch/
+wget https://gist.githubusercontent.com/dusty-nv/ce51796085178e1f38e3c6a1663a93a1/raw/fb2e0b6e89960fedd63ffc5a33e49e46dce5c987/pytorch-1.9-jetpack-4.5.1.patch -O pytorch-1.9-jetpack-4.5.1.patch
+patch -p1 < pytorch-1.9-jetpack-4.5.1.patch
+pip3 install -r requirements.txt
+export USE_NCCL=0
+export USE_DISTRIBUTED=0
+export USE_QNNPACK=0
+export USE_PYTORCH_QNNPACK=0
+export TORCH_CUDA_ARCH_LIST="7.2"
+export PYTORCH_BUILD_VERSION=1.9.0
+export PYTORCH_BUILD_NUMBER=1
+export BLAS=OpenBLAS
+USE_OPENCV=1 python3 setup.py bdist_wheel # Add OpenCV support, as it is present on the nano
+cd dist/
+pip3 install torch-1.9.0-cp36-cp36m-linux_aarch64.whl
+cd ~/
 
 # # # Build torchvision from source
 # # now=`date`

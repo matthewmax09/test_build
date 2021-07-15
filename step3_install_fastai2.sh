@@ -126,7 +126,7 @@ make install prefix=/usr/local/magma
 
 # # Install dependencies for pytorch build
 # pip3 install scikit-build --user
-pip3 install ninja --user
+pip3 install ninja
 pip3 install wheel
 
 # Build torch from source
